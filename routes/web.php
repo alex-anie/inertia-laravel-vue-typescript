@@ -13,9 +13,11 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/users', function () {
+    // return User::paginate(10);
     return Inertia::render('Users', [
-        'users' => User::all()->map(fn($user)=>[
-            'name' => $user->name
+        'users' => User::paginate(10)->through(fn($user)=> [
+            'id' => $user-> id,
+            'name' => $user-> name
         ])
     ]);
 })->name('users');
@@ -31,9 +33,6 @@ Route::post('/logout', function () {
 // Route::get('dashboard', function () {
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
-
-
-
 
 // require __DIR__.'/settings.php';
 // require __DIR__.'/auth.php';
